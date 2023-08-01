@@ -11,6 +11,10 @@ export default function Index() {
       label: "表格",
       url: "/pages/table/index",
     },
+    {
+      label: "级联",
+      url: "/pages/cascader/index",
+    },
   ];
   return (
     <View className='container'>
