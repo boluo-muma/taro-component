@@ -6,7 +6,7 @@ import { FormModel } from "@/components/wk-form/model/FormModel";
 
 export default function FormText() {
   const formRef = useRef<FormModel>(null);
-  const [form, setForm] = useState({});
+  const [form, setForm] = useState<Record<string,any>>({});
   const submit = (val: any) => {
     console.log("fdsf", val);
   };
@@ -32,7 +32,7 @@ export default function FormText() {
         <FormItem label='姓名' prop='name' onChangePropsName='onInput' required>
           <Input placeholder='请输入'></Input>
         </FormItem>
-        <FormItem label='城市' prop='cityCode' required>
+        <FormItem label='城市' prop='cityCode' required={form.name}>
           <WKPickerSelector
             options={[{ label: "中国", value: 1 }]}
           ></WKPickerSelector>

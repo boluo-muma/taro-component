@@ -29,7 +29,7 @@ export const Field: FC<FieldProps> = observer((props) => {
 
   const field = useMemo(() => {
     return new FormItemModel(form, props);
-  }, [form]);
+  }, [form,props]);
 
   useEffect(() => {
     field.onMount();

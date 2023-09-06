@@ -1,6 +1,7 @@
 import React, { FC } from "react";
 import { observer } from "mobx-react";
 import { View } from "@tarojs/components";
+import classNames from "classnames";
 import { Field, WKFieldContext } from "../field";
 import { FormItemProps } from "../model";
 
@@ -18,7 +19,7 @@ export const FormItem: FC<Props> = observer((props) => {
       {(context: WKFieldContext) => {
         return (
           <View className='b-form-item'>
-            <View className='b-form-item__label'>{label}</View>
+            <View className={classNames('b-form-item__label',{'b-form-item__label--required': context.required})}>{label}</View>
             <View className='b-form-item__content'>
               {React.isValidElement(props.children) &&
                 React.cloneElement(props.children as any, {

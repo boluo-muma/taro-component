@@ -1,5 +1,9 @@
 .b-form-item{
   margin-bottom: 64px;
+  &__label--required::before{
+    content: '*';
+    color: red;
+  }
   &__content{
     line-height: 40px;
     position: relative;
