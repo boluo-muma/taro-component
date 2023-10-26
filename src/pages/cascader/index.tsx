@@ -1,5 +1,5 @@
-import { useState } from "react";
-import Cascader from "@/components/cascader";
+import { useState, useMemo } from "react";
+import Cascader, { Option } from "@/components/cascader";
 import { View } from "@tarojs/components";
 
 const options = [
@@ -17,12 +17,28 @@ const options = [
 
 export default function CascaderPage() {
   const [visible, setVisible] = useState(false);
-  const [value, setValue] = useState([]);
+  const [value, setValue] = useState<Option[]>();
+
+  const onChange = (val) => {
+    setVisible(false);
+    setValue(val);
+  };
+
+  const formatVal = useMemo(() => {
+    return value?.map((item) => item.text).join();
+  }, [value]);
 
   return (
     <View>
-      <view onClick={() => setVisible(true)}>点我</view>
-      <Cascader visible={visible} value={value} options={options}></Cascader>
+      <view onClick={() => setVisible(true)}>
+        {formatVal ? formatVal : "点我"}
+      </view>
+      <Cascader
+        visible={visible}
+        value={value}
+        options={options}
+        onChange={onChange}
+      ></Cascader>
     </View>
   );
 }

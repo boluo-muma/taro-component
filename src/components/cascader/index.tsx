@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-shadow */
 import { FC, useState, useMemo } from "react";
 import Taro from '@tarojs/taro'
 import { View, ScrollView } from "@tarojs/components";
@@ -28,7 +29,7 @@ interface Tabs {
 }
 
 interface Props {
-  value: Array<Option>;
+  value?: Array<Option>;
   options: Option[];
   multiple?: boolean;
   visible: boolean;

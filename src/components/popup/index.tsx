@@ -41,9 +41,6 @@ const Popup: FC<Props> = (props) => {
     if (visible) {
       setZIndex((pre) => pre + 1);
       setMaskZIndex((pre) => pre + 1);
-      wx.setPageStyle({
-        overflow: "hidden",
-      });
     }
   }, [visible]);
 
