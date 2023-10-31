@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-shadow */
 import { FC, useState, useMemo } from "react";
-import Taro from '@tarojs/taro'
+import Taro from "@tarojs/taro";
 import { View, ScrollView } from "@tarojs/components";
 import classNames from "classnames";
 // import { AtIcon } from "taro-ui";
@@ -9,7 +9,6 @@ import useDeepCompareEffect from "../../hooks/useDeepCompareEffect";
 import { getIndexByValue, treeFindPath, treeToList, treeFind } from "./common";
 
 import "./index.scss";
-
 
 export interface Option {
   text: string;
@@ -170,13 +169,9 @@ const Cascader: FC<Props> = (props) => {
     let list = selected ? [...selected] : [];
     const findIndex = list.findIndex((item) => item.value === node.value);
     if (multiple) {
-      if (~findIndex) {
-        list.splice(findIndex, 1);
-      } else {
-        list.push(node);
-      }
+      ~findIndex ? list.splice(findIndex, 1) : list.push(node);
     } else {
-      list = [node];
+      ~findIndex ? list.splice(findIndex, 1) : (list = [node]);
     }
     setSelected(list);
   };
@@ -197,6 +192,8 @@ const Cascader: FC<Props> = (props) => {
     }
     onClose && onClose();
   };
+
+  console.log("selected", selected);
 
   return (
     <Popup
