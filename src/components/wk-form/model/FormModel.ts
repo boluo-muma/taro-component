@@ -26,7 +26,7 @@ export class FormModel {
   constructor(props: FormProps) {
     makeAutoObservable(this);
     const { value, rules } = props;
-    this.value = value ?? ({} as any);
+    this.value = getValidValue(value);
     this.rules = rules;
     this.props = { ...props };
   }
@@ -61,6 +61,8 @@ export class FormModel {
    * @param val
    */
   setFieldValue(path: string, val: any) {
+    console.log("path", path, val);
+
     this.value[path] = val;
     this.props.onChange?.(path, val);
   }

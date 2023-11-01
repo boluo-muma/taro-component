@@ -22,7 +22,7 @@ export class FormItemModel {
   constructor(from: FormModel, props: FormItemProps) {
     this.form = from;
     this.props = { ...props };
-    makeAutoObservable(this)
+    makeAutoObservable(this);
   }
   private resetState() {
     this.validatorMessage = "";
@@ -104,6 +104,9 @@ export class FormItemModel {
       return this.form.rules[this.prop];
     }
   };
+  updateProps(props: FormItemProps) {
+    this.props = { ...props };
+  }
   validate = () => {
     return new Promise((resolve, reject) => {
       const descriptor = this.getRules();
@@ -116,7 +119,7 @@ export class FormItemModel {
             this.validatorState = "error";
             reject(this.validatorMessage);
           } else {
-            this.validatorMessage = '';
+            this.validatorMessage = "";
             this.validatorState = "success";
             resolve(true);
           }

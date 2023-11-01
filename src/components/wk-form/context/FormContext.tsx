@@ -1,7 +1,7 @@
 import React, { FC, useContext } from 'react';
 import { FormModel } from '../model/FormModel';
 
-const Context = React.createContext<FormModel<any> | null>(null);
+const Context = React.createContext<FormModel | null>(null);
 
 export const FormContextProvider: FC<{ model: FormModel; children?: React.ReactNode }> = props => {
   const { children, model } = props;

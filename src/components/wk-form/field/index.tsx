@@ -1,6 +1,6 @@
 import React, { FC, useEffect, useMemo, useCallback } from "react";
 import { observer } from "mobx-react";
-
+import useDeepCompareEffect from "@/hooks/useDeepCompareEffect";
 import { useFormContext } from "../context/FormContext";
 import { FormItemModel, FormItemProps } from "../model";
 import { getValueFromEvent } from "../utils";
@@ -29,7 +29,12 @@ export const Field: FC<FieldProps> = observer((props) => {
 
   const field = useMemo(() => {
     return new FormItemModel(form, props);
-  }, [form,props]);
+  }, [form]);
+  
+  // 更新props参数
+  useDeepCompareEffect(() => {
+    field.updateProps(props);
+  }, [props]);
 
   useEffect(() => {
     field.onMount();
