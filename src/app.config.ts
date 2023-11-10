@@ -4,6 +4,7 @@ export default defineAppConfig({
     'pages/form/index',
     'pages/table/index',
     'pages/cascader/index',
+    'pages/calendar/index',
   ],
   window: {
     backgroundTextStyle: 'light',

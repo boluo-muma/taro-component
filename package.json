@@ -53,6 +53,7 @@
     "@wakeapp/components": "^1.0.10",
     "async-validator": "^4.2.5",
     "classnames": "^2.3.2",
+    "dayjs": "^1.11.10",
     "lodash": "^4.17.21",
     "mobx": "^6.9.0",
     "mobx-react": "^7.6.0",

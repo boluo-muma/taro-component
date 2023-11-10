@@ -15,6 +15,10 @@ export default function Index() {
       label: "级联",
       url: "/pages/cascader/index",
     },
+    {
+      label: "日历",
+      url: "/pages/calendar/index",
+    },
   ];
   return (
     <View className='container'>
