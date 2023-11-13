@@ -243,7 +243,7 @@ const InternalCalendar: React.ForwardRefRenderFunction<
   };
 
   return poppable ? (
-    <Popup visible={show} close={handleClose} style={{ height: "80%" }} round>
+    <Popup visible={show} close={handleClose} style={{ height: "75%" }} round>
       {renderInnerCalendar()}
     </Popup>
   ) : (
