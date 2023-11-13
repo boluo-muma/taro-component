@@ -1,4 +1,4 @@
-import { forwardRef, useImperativeHandle } from "react";
+import { forwardRef, useImperativeHandle,useRef } from "react";
 import { View } from "@tarojs/components";
 import classNames from "classnames";
 import { CalendarMonthProps, CalendarDayType, CalendarDayItem } from "./type";
@@ -6,7 +6,14 @@ import "./index.scss";
 import { compareDay, getRect } from "./utils";
 
 function CalendarMonth(props: CalendarMonthProps, ref) {
-  const { date, type, formatter, onselect, value } = props;
+  const { date, type, formatter, onselect, value, minDate, maxDate } = props;
+
+  const monthRef = useRef()
+
+  const handleSelect = (item: CalendarDayItem) => {
+    if(item.type === 'disabled') return
+    onselect(item.date)
+  }
 
   // 获取这个个月多少天
   const daysOfMonth = (year: number, month: number) => {
@@ -22,6 +29,10 @@ function CalendarMonth(props: CalendarMonthProps, ref) {
       return compareDay(val, date) === 0 ? "selected" : "";
     }
     const [startDate, endDate] = Array.isArray(value) ? value : [];
+
+    if (compareDay(val, minDate) < 0 || compareDay(val, maxDate) > 0)
+      return "disabled";
+
     if (!startDate) {
       return "";
     }
@@ -96,7 +107,7 @@ function CalendarMonth(props: CalendarMonthProps, ref) {
           {days.map((day) => (
             <View
               key={day}
-              onClick={() => onselect(day.date)}
+              onClick={() => handleSelect(day)}
               className={classNames(`calendar__day`, {
                 [`calendar__day--${day.type}`]: !!day.type,
               })}
@@ -112,14 +123,16 @@ function CalendarMonth(props: CalendarMonthProps, ref) {
 
   const getHeight = async () => {
     const res = await getRect(".calendar__month");
-    return res.height
+    return res.height;
   };
 
+
   useImperativeHandle(ref, () => ({
-    getHeight
+    getHeight,
+    monthRef
   }));
 
-  return <View className='calendar__month'>{renderDays()}</View>;
+  return <View ref={monthRef} className='calendar__month'>{renderDays()}</View>;
 }
 
 export default forwardRef(CalendarMonth);

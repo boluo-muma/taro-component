@@ -16,17 +16,30 @@ export interface CalendarDayItem {
 
 export interface CalendarProps {
   value?: Date | Array<Date>;
-  onChange?: (date: Date) => void;
+  onConfirm?: (date: CalendarProps["value"]) => void;
+  onClose?: () => void;
   minDate?: Date;
   maxDate?: Date;
   type?: "single" | "range";
   formatter?: (val: CalendarDayItem) => CalendarDayItem;
+  poppable?: Boolean;
+  show?: Boolean;
+  /** 是否显示确认按钮*/
+  showConfirm?: Boolean;
+  title?: string
+}
+
+export interface CalendarRef {
+  getDate: () => CalendarProps["value"];
+  setDate: (date: CalendarProps["value"]) => void;
 }
 
 export interface CalendarMonthProps {
-  value: CalendarProps['value']
+  value: CalendarProps["value"];
   date: Date;
   type: CalendarProps["type"];
   formatter: CalendarProps["formatter"];
-  onselect: (val: Date) => void;
+  onselect: (val: CalendarProps["value"]) => void;
+  minDate: Date
+  maxDate: Date
 }

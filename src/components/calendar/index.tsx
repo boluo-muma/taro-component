@@ -6,42 +6,14 @@ import React, {
   useEffect,
 } from "react";
 import { View, ScrollView } from "@tarojs/components";
+import Popup from "@/components/popup";
 import dayjs from "dayjs";
 import useRefs from "@/hooks/useRefs";
 import { raf } from "@/utils/index";
 import CalendarMonth from "./CalendarMonth";
-import { compareDay, getRect } from "./utils";
+import { compareDay, getRect, compareMonth } from "./utils";
+import { CalendarRef, CalendarProps } from "./type";
 import "./index.scss";
-
-interface CalendarProps {
-  value?: Date | Array<Date>;
-  onChange?: (date: Date) => void;
-  minDate?: Date;
-  maxDate?: Date;
-  type?: "single" | "range";
-  formatter?: (val: CalendarDayItem) => CalendarDayItem;
-}
-
-type CalendarDayType =
-  | ""
-  | "start"
-  | "start-end"
-  | "middle"
-  | "end"
-  | "selected"
-  | "disabled";
-
-interface CalendarDayItem {
-  date?: Date;
-  type?: CalendarDayType;
-  bottomInfo?: string;
-  text?: number;
-}
-
-export interface CalendarRef {
-  getDate: () => Date | Date[];
-  setDate: (date: Date) => void;
-}
 
 const now = new Date();
 
@@ -50,26 +22,42 @@ const InternalCalendar: React.ForwardRefRenderFunction<
   CalendarProps
 > = (props, ref) => {
   const {
-    value = new Date(),
-    onChange,
+    value,
+    onConfirm,
+    onClose,
     minDate = now,
     maxDate = dayjs().add(6, "month").toDate(),
     type = "single",
     formatter,
+    poppable,
+    show = false,
+    title = "日期选择",
   } = props;
 
   const [monthRefs, setMonthRefs] = useRefs();
   const bodyRef = useRef<Element>(null);
   const bodyHeightRef = useRef<number>(0);
-  const contentObserver = useRef<IntersectionObserver>(null);
 
   const [date, setDate] = useState(value);
 
   const [subTitle, setSubtitle] = useState("");
+  const [scrollTop,setScrollTop] = useState(0)
 
   useEffect(() => {
     init();
   }, []);
+
+  useEffect(() => {
+    if (poppable && show) {
+      init();
+    }
+  }, [show]);
+
+  useEffect(() => {
+    if (JSON.stringify(value) !== JSON.stringify(date)) {
+      setDate(value);
+    }
+  }, [value]);
 
   const months = useMemo(() => {
     const monthList: Date[] = [];
@@ -113,18 +101,51 @@ const InternalCalendar: React.ForwardRefRenderFunction<
     }
   };
 
+  const handleClose = () => {
+    setDate(value);
+    onClose?.();
+  };
+
   const init = () => {
     raf(() => {
       getRect(".calendar__body").then((res) => {
         bodyHeightRef.current = res.height || 0;
-        handleScroll();
+        scrollIntoView();
       });
     });
   };
+
+  const scrollIntoView = () => {
+    if (poppable && !show) return;
+    if (date) {
+      const targetDate = type === "single" ? date : date[0];
+      scrollToDate(targetDate);
+    } else {
+      raf(handleScroll);
+    }
+  };
+
+  const scrollToDate = (targetDate: Date) => {
+    raf(() => {
+      months.some((month, index) => {
+        if (compareMonth(month, targetDate) === 0) {
+          if (bodyRef.current) {
+            monthRefs[index].getHeight().then(res=>{
+              setScrollTop(res * index)
+            })
+          }
+          return true;
+        }
+
+        return false;
+      });
+    });
+  };
+
   const handleScroll = async (e?) => {
     const top = e?.detail?.scrollTop || 0;
     const bottom = top + bodyHeightRef.current;
-    const promisesHeight = months.map(async (_, index) =>
+    const promisesHeight = months.map((_, index) =>
       monthRefs[index].getHeight()
     );
     const heights = await Promise.all(promisesHeight);
@@ -167,6 +188,8 @@ const InternalCalendar: React.ForwardRefRenderFunction<
             value={date}
             key={index}
             type={type}
+            minDate={minDate}
+            maxDate={maxDate}
             formatter={formatter}
             onselect={onselect}
           ></CalendarMonth>
@@ -175,29 +198,55 @@ const InternalCalendar: React.ForwardRefRenderFunction<
     );
   };
 
-  return (
-    <View className='calendar'>
-      <View className='calendar__header'>
-        <View className='calendar__header-subtitle'>{subTitle}</View>
-        <View className='calendar__weekdays'>
-          <View className='calendar__weekday'>日</View>
-          <View className='calendar__weekday'>一</View>
-          <View className='calendar__weekday'>二</View>
-          <View className='calendar__weekday'>三</View>
-          <View className='calendar__weekday'>四</View>
-          <View className='calendar__weekday'>五</View>
-          <View className='calendar__weekday'>六</View>
+  const renderFooter = () => {
+    return (
+      <View className='calendar__footer'>
+        <View
+          className='calendar__footer--button'
+          onClick={() => onConfirm?.(date)}
+        >
+          确认
         </View>
       </View>
-      <ScrollView
-        className='calendar__body'
-        ref={bodyRef}
-        scrollY
-        onScroll={handleScroll}
-      >
-        {renderMonth()}
-      </ScrollView>
-    </View>
+    );
+  };
+
+  const renderInnerCalendar = () => {
+    return (
+      <View className='calendar'>
+        <View className='calendar__header'>
+          <View className='calendar__header-title'>{title}</View>
+          <View className='calendar__header-subtitle'>{subTitle}</View>
+          <View className='calendar__weekdays'>
+            <View className='calendar__weekday'>日</View>
+            <View className='calendar__weekday'>一</View>
+            <View className='calendar__weekday'>二</View>
+            <View className='calendar__weekday'>三</View>
+            <View className='calendar__weekday'>四</View>
+            <View className='calendar__weekday'>五</View>
+            <View className='calendar__weekday'>六</View>
+          </View>
+        </View>
+        <ScrollView
+          className='calendar__body'
+          ref={bodyRef}
+          scrollY
+          scrollTop={scrollTop}
+          onScroll={handleScroll}
+        >
+          {renderMonth()}
+        </ScrollView>
+        {renderFooter()}
+      </View>
+    );
+  };
+
+  return poppable ? (
+    <Popup visible={show} close={handleClose} customStyle={{ height: "80%" }}>
+      {renderInnerCalendar()}
+    </Popup>
+  ) : (
+    renderInnerCalendar()
   );
 };
 

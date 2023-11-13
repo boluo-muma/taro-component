@@ -4,13 +4,13 @@ import classNames from "classnames";
 import "./index.scss";
 
 type Props = {
-  visible: boolean;
-  closeable?: boolean;
-  maskClosable?: boolean;
-  round?: boolean;
+  visible: Boolean;
+  closeable?: Boolean;
+  maskClosable?: Boolean;
+  round?: Boolean;
   position?: string;
-  transition?: boolean;
-  mask?: boolean;
+  transition?: Boolean;
+  mask?: Boolean;
   maskStyle?: React.CSSProperties;
   customStyle?: React.CSSProperties;
   children?: React.ReactNode;
