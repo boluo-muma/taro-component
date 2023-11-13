@@ -119,6 +119,7 @@ const InternalCalendar: React.ForwardRefRenderFunction<
     if (poppable && !show) return;
     if (date) {
       const targetDate = type === "single" ? date : date[0];
+      if (!targetDate) return;
       scrollToDate(targetDate);
     } else {
       raf(handleScroll);

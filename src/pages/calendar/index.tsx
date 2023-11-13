@@ -3,11 +3,16 @@ import Calendar from "@/components/calendar";
 import { CalendarRef } from "@/components/calendar/type";
 import { View } from "@tarojs/components";
 import dayjs from "dayjs";
+import classNames from "classnames";
+import "./index.scss";
 
 function Test() {
   const calendarRef = useRef<CalendarRef>(null);
   const [visible, setVisible] = useState(false);
-  const [value, setValue] = useState([dayjs().add(2,'month').toDate(),dayjs().add(3,'month').toDate()]);
+  const [value, setValue] = useState([
+    dayjs().add(2, "month").toDate(),
+    dayjs().add(3, "month").toDate(),
+  ]);
 
   const formatVal = useMemo(() => {
     if (!value?.length) return "";
@@ -22,15 +27,30 @@ function Test() {
     setVisible((pre) => !pre);
   };
 
-  const onClose = ()=>{
-    setVisible(false)
-  }
+  const onClose = () => {
+    setVisible(false);
+  };
+
+  const onClear = () => {
+    setValue([]);
+  };
+
+  console.log("value", value);
 
   return (
     <View>
-      <view onClick={() => setVisible(true)}>
-        {formatVal ? formatVal : "点我"}
-      </view>
+      <View className='cell'>
+        <View className='cell__label'>日历选择</View>
+        <View
+          className={classNames("cell__content", {'cell__content--placeholder': !formatVal})}
+          onClick={() => setVisible(true)}
+        >
+          {formatVal ? formatVal : '请选择'}
+        </View>
+        <View className='cell__close' onClick={onClear}>
+          X
+        </View>
+      </View>
       <Calendar
         ref={calendarRef}
         type='range'

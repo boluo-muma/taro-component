@@ -1,0 +1,14 @@
+.cell {
+  display: flex;
+  justify-content: space-between;
+  &__content {
+    text-align: right;
+    flex: 1;
+    &--placeholder {
+      color: #666667;
+    }
+  }
+  &__close {
+    margin-left: 15px;
+  }
+}

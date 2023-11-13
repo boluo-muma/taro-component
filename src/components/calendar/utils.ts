@@ -1,8 +1,8 @@
 import Taro from "@tarojs/taro"
 
 export function compareMonth(date1: Date, date2: Date) {
-  const year1 = date1.getFullYear()
-  const year2 = date2.getFullYear()
+  const year1 = date1?.getFullYear()
+  const year2 = date2?.getFullYear()
 
   if (year1 === year2) {
     const month1 = date1.getMonth()
