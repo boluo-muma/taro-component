@@ -35,17 +35,19 @@ function Test() {
     setValue([]);
   };
 
-  console.log("value", value);
+  console.log("value", value, visible);
 
   return (
     <View>
       <View className='cell'>
         <View className='cell__label'>日历选择</View>
         <View
-          className={classNames("cell__content", {'cell__content--placeholder': !formatVal})}
+          className={classNames("cell__content", {
+            "cell__content--placeholder": !formatVal,
+          })}
           onClick={() => setVisible(true)}
         >
-          {formatVal ? formatVal : '请选择'}
+          {formatVal ? formatVal : "请选择"}
         </View>
         <View className='cell__close' onClick={onClear}>
           X

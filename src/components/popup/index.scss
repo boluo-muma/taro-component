@@ -76,7 +76,7 @@
 }
 
 /* 关闭按钮样式 */
-.popup-close {
+.popup__close-icon {
   position: absolute;
   top: 24rpx;
   right: 24rpx;
@@ -84,6 +84,9 @@
   padding: 6rpx;
   width: 36rpx;
   height: 36rpx;
+  line-height: 36px;
+  text-align: center;
+  color: #c8c9cc;
 }
 
 /* 过渡效果 */

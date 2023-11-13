@@ -12,7 +12,7 @@ type Props = {
   transition?: Boolean;
   mask?: Boolean;
   maskStyle?: React.CSSProperties;
-  customStyle?: React.CSSProperties;
+  style?: React.CSSProperties;
   children?: React.ReactNode;
   close?: () => void;
   closed?: () => void;
@@ -24,14 +24,14 @@ const Popup: FC<Props> = (props) => {
 
   const {
     visible,
-    closeable,
+    closeable = true,
     maskClosable = true,
     round,
     position = "bottom",
     transition = true,
     mask = true,
     maskStyle,
-    customStyle,
+    style,
     close,
     closed,
     children,
@@ -45,6 +45,7 @@ const Popup: FC<Props> = (props) => {
   }, [visible]);
 
   const handleClickOverlay = () => {
+    if (!maskClosable) return;
     close && close();
   };
   const handleTransitionEnd = () => {
@@ -55,7 +56,7 @@ const Popup: FC<Props> = (props) => {
   return (
     <View
       className={classNames("popup", {
-        "popup-show": visible,
+        'popup-show': visible,
         "popup-transition": transition,
       })}
       onTouchMove={(e) => e.stopPropagation()}
@@ -78,11 +79,16 @@ const Popup: FC<Props> = (props) => {
         })}
         style={{
           zIndex: zIndex,
-          ...customStyle,
+          ...style,
         }}
         onAnimationEnd={handleTransitionEnd}
       >
         {children}
+        {closeable && (
+          <View className='popup__close-icon' onClick={() => close?.()}>
+            X
+          </View>
+        )}
       </View>
     </View>
   );
