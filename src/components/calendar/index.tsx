@@ -41,7 +41,7 @@ const InternalCalendar: React.ForwardRefRenderFunction<
   const [date, setDate] = useState(value);
 
   const [subTitle, setSubtitle] = useState("");
-  const [scrollTop,setScrollTop] = useState(0)
+  const [scrollTop, setScrollTop] = useState(0);
 
   useEffect(() => {
     init();
@@ -125,20 +125,19 @@ const InternalCalendar: React.ForwardRefRenderFunction<
     }
   };
 
-  const scrollToDate = (targetDate: Date) => {
-    raf(() => {
-      months.some((month, index) => {
+  const scrollToDate = async (targetDate: Date) => {
+    raf(async () => {
+      let height = 0;
+      for (let i = 0; i < months.length; i++) {
+        const month = months[i];
         if (compareMonth(month, targetDate) === 0) {
           if (bodyRef.current) {
-            monthRefs[index].getHeight().then(res=>{
-              setScrollTop(res * index)
-            })
+            setScrollTop(height);
           }
-          return true;
+          return;
         }
-
-        return false;
-      });
+        height += await monthRefs[i].getHeight();
+      }
     });
   };
 
@@ -148,6 +147,7 @@ const InternalCalendar: React.ForwardRefRenderFunction<
     const promisesHeight = months.map((_, index) =>
       monthRefs[index].getHeight()
     );
+
     const heights = await Promise.all(promisesHeight);
 
     const heightSum = heights.reduce((acc, cur) => acc + cur, 0);
@@ -159,22 +159,22 @@ const InternalCalendar: React.ForwardRefRenderFunction<
     const visibleRange = [-1, -1];
 
     for (let i = 0; i < months.length; i++) {
-      const month = months[i];
-      const visible = height <= bottom && height + heights[i] >= top;
+      const monthRef = monthRefs[i];
+      const visible = height <= bottom && height + heights[i] > top;
 
       if (visible) {
         visibleRange[1] = i;
 
         if (!currentMonth) {
-          currentMonth = month;
+          currentMonth = monthRef;
           visibleRange[0] = i;
         }
       }
 
       height += heights[i];
     }
-    if (currentMonth && dayjs(currentMonth).format("YYYY-MM-DD") !== subTitle) {
-      setSubtitle(dayjs(currentMonth).format("YYYY-MM"));
+    if (currentMonth && currentMonth.getTitle() !== subTitle) {
+      setSubtitle(currentMonth.getTitle());
     }
   };
 

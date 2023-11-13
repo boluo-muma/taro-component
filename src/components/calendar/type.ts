@@ -26,7 +26,7 @@ export interface CalendarProps {
   show?: Boolean;
   /** 是否显示确认按钮*/
   showConfirm?: Boolean;
-  title?: string
+  title?: string;
 }
 
 export interface CalendarRef {
@@ -40,6 +40,7 @@ export interface CalendarMonthProps {
   type: CalendarProps["type"];
   formatter: CalendarProps["formatter"];
   onselect: (val: CalendarProps["value"]) => void;
-  minDate: Date
-  maxDate: Date
+  minDate: Date;
+  maxDate: Date;
+  formatTitle?: string;
 }

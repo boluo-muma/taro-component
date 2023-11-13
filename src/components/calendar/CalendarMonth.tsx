@@ -1,19 +1,41 @@
-import { forwardRef, useImperativeHandle,useRef } from "react";
+import { forwardRef, useEffect, useImperativeHandle, useMemo } from "react";
 import { View } from "@tarojs/components";
 import classNames from "classnames";
+import dayjs from "dayjs";
 import { CalendarMonthProps, CalendarDayType, CalendarDayItem } from "./type";
 import "./index.scss";
 import { compareDay, getRect } from "./utils";
 
-function CalendarMonth(props: CalendarMonthProps, ref) {
-  const { date, type, formatter, onselect, value, minDate, maxDate } = props;
 
-  const monthRef = useRef()
+function CalendarMonth(props: CalendarMonthProps, ref) {
+  const {
+    date,
+    type,
+    formatter,
+    onselect,
+    value,
+    minDate,
+    maxDate,
+    formatTitle = "YYYY年MM月",
+  } = props;
+
+
+  const title = useMemo(() => {
+    return dayjs(date).format(formatTitle);
+  }, [date, formatTitle]);
+
+
+
+  const customClass = useMemo(()=>{
+    return `calendar__month-${date.getFullYear()}-${date.getMonth() + 1}`
+  },[date])
+
+  const getTitle = () => title;
 
   const handleSelect = (item: CalendarDayItem) => {
-    if(item.type === 'disabled') return
-    onselect(item.date)
-  }
+    if (item.type === "disabled") return;
+    onselect(item.date);
+  };
 
   // 获取这个个月多少天
   const daysOfMonth = (year: number, month: number) => {
@@ -96,9 +118,7 @@ function CalendarMonth(props: CalendarMonthProps, ref) {
 
     return (
       <>
-        <View className='calendar__month-title'>{`${year}年${
-          month + 1
-        }月`}</View>
+        <View className='calendar__month-title'>{title}</View>
         <View className='calendar__days'>
           <View className='calendar__month-mark'>{date.getMonth() + 1}</View>
           {empty.map((i) => (
@@ -122,17 +142,25 @@ function CalendarMonth(props: CalendarMonthProps, ref) {
   };
 
   const getHeight = async () => {
-    const res = await getRect(".calendar__month");
+    const res = await getRect(`.${customClass}`);
     return res.height;
   };
 
-
   useImperativeHandle(ref, () => ({
     getHeight,
-    monthRef
+    getTitle,
   }));
 
-  return <View ref={monthRef} className='calendar__month'>{renderDays()}</View>;
+  return (
+    <View
+      className={classNames(
+        "calendar__month",
+        customClass
+      )}
+    >
+      {renderDays()}
+    </View>
+  );
 }
 
 export default forwardRef(CalendarMonth);

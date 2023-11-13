@@ -31,7 +31,7 @@ export function raf(fn: FrameRequestCallback): number {
 
 
 
-export const getRect = (elementRef: Element | null): Rect => {
+export const getElRect = (elementRef: Element | null): Rect => {
   const element = elementRef;
 
   if (isWindow(element)) {
