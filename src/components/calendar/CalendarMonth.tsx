@@ -126,7 +126,7 @@ function CalendarMonth(props: CalendarMonthProps, ref) {
           ))}
           {days.map((day) => (
             <View
-              key={day}
+              key={day.date}
               onClick={() => handleSelect(day)}
               className={classNames(`calendar__day`, {
                 [`calendar__day--${day.type}`]: !!day.type,

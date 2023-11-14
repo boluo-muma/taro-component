@@ -49,9 +49,7 @@ function Test() {
         >
           {formatVal ? formatVal : "请选择"}
         </View>
-        <View className='cell__close' onClick={onClear}>
-          X
-        </View>
+        <View className='cell__right-icon' onClick={onClear}></View>
       </View>
       <Calendar
         ref={calendarRef}

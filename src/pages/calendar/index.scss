@@ -1,14 +1,34 @@
 .cell {
   display: flex;
   justify-content: space-between;
+  align-items: center;
   &__content {
     text-align: right;
     flex: 1;
+    color: #969799;
     &--placeholder {
       color: #666667;
     }
   }
-  &__close {
+  &__right-icon {
     margin-left: 15px;
+    width: 32px;
+    height: 48px;
+    color: #969799;
+    position: relative;
+    &::after {
+      display: inline-block;
+      content: " ";
+      height: 18px;
+      width: 18px;
+      border-width: 2px 2px 0 0;
+      border-color: #c7c7cc;
+      border-style: solid;
+      transform: matrix(0.71, 0.71, -0.71, 0.71, 0, 0);
+      position: absolute;
+      top: 50%;
+      right: 6px;
+      margin-top: -9px;
+    }
   }
 }

@@ -148,6 +148,7 @@ const InternalCalendar: React.ForwardRefRenderFunction<
     const promisesHeight = months.map((_, index) =>
       monthRefs[index].getHeight()
     );
+   if(process.env.ENV_TYPE === 'h5') setScrollTop(top)
 
     const heights = await Promise.all(promisesHeight);
 
