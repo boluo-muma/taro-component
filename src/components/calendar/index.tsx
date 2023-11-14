@@ -11,7 +11,7 @@ import dayjs from "dayjs";
 import useRefs from "@/hooks/useRefs";
 import { raf } from "@/utils/index";
 import CalendarMonth from "./CalendarMonth";
-import { compareDay, getRect, compareMonth } from "./utils";
+import { compareDay, getRect, compareMonth, getNode } from "./utils";
 import { CalendarRef, CalendarProps } from "./type";
 import "./index.scss";
 
@@ -41,7 +41,6 @@ const InternalCalendar: React.ForwardRefRenderFunction<
   const [date, setDate] = useState(value);
 
   const [subTitle, setSubtitle] = useState("");
-  const [scrollTop, setScrollTop] = useState(0);
 
   useEffect(() => {
     init();
@@ -82,6 +81,7 @@ const InternalCalendar: React.ForwardRefRenderFunction<
   const onselect = (val) => {
     if (type === "single") {
       setDate(val);
+      onConfirm?.(val)
     } else if (type === "range") {
       const [startDay, endDay] = Array.isArray(date) ? date : [];
 
@@ -133,7 +133,9 @@ const InternalCalendar: React.ForwardRefRenderFunction<
         const month = months[i];
         if (compareMonth(month, targetDate) === 0) {
           if (bodyRef.current) {
-            setScrollTop(height);
+            getNode(".calendar__body").then((node) => {
+              node.scrollTo({ top: height });
+            });
           }
           return;
         }
@@ -148,7 +150,6 @@ const InternalCalendar: React.ForwardRefRenderFunction<
     const promisesHeight = months.map((_, index) =>
       monthRefs[index].getHeight()
     );
-   if(process.env.ENV_TYPE === 'h5') setScrollTop(top)
 
     const heights = await Promise.all(promisesHeight);
 
@@ -232,8 +233,8 @@ const InternalCalendar: React.ForwardRefRenderFunction<
         <ScrollView
           className='calendar__body'
           ref={bodyRef}
+          enhanced
           scrollY
-          scrollTop={scrollTop}
           onScroll={handleScroll}
         >
           {renderMonth()}

@@ -1,4 +1,4 @@
-import { forwardRef, useEffect, useImperativeHandle, useMemo } from "react";
+import { forwardRef, useImperativeHandle, useMemo } from "react";
 import { View } from "@tarojs/components";
 import classNames from "classnames";
 import dayjs from "dayjs";

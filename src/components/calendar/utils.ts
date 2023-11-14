@@ -36,3 +36,14 @@ export const getRect = (selector: string): Promise<Record<string, any>> => {
       .exec();
   });
 };
+export const getNode = (selector: string): Promise<TaroGeneral.IAnyObject> => {
+  return new Promise(resolve => {
+    Taro
+      .createSelectorQuery()
+      .select(selector)
+      .node(res => {
+        resolve(res.node);
+      })
+      .exec();
+  });
+};
