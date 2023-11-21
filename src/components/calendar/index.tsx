@@ -81,7 +81,7 @@ const InternalCalendar: React.ForwardRefRenderFunction<
   const onselect = (val) => {
     if (type === "single") {
       setDate(val);
-      onConfirm?.(val)
+      onConfirm?.(val);
     } else if (type === "range") {
       const [startDay, endDay] = Array.isArray(date) ? date : [];
 
@@ -201,11 +201,43 @@ const InternalCalendar: React.ForwardRefRenderFunction<
     );
   };
 
+  const renderHeader = () => {
+    return (
+      <View className='calendar__header'>
+        <View className='calendar__header-title'>{title}</View>
+        <View className='calendar__header-subtitle'>{subTitle}</View>
+        <View className='calendar__weekdays'>
+          <View className='calendar__weekday'>日</View>
+          <View className='calendar__weekday'>一</View>
+          <View className='calendar__weekday'>二</View>
+          <View className='calendar__weekday'>三</View>
+          <View className='calendar__weekday'>四</View>
+          <View className='calendar__weekday'>五</View>
+          <View className='calendar__weekday'>六</View>
+        </View>
+      </View>
+    );
+  };
+
+  const renderBody = () => {
+    return (
+      <ScrollView
+        className='calendar__body'
+        ref={bodyRef}
+        enhanced
+        scrollY
+        onScroll={handleScroll}
+      >
+        {renderMonth()}
+      </ScrollView>
+    );
+  };
+
   const renderFooter = () => {
     return (
       <View className='calendar__footer'>
         <View
-          className='calendar__footer--button'
+          className='calendar__footer-button'
           onClick={() => onConfirm?.(date)}
         >
           确认
@@ -217,28 +249,8 @@ const InternalCalendar: React.ForwardRefRenderFunction<
   const renderInnerCalendar = () => {
     return (
       <View className='calendar'>
-        <View className='calendar__header'>
-          <View className='calendar__header-title'>{title}</View>
-          <View className='calendar__header-subtitle'>{subTitle}</View>
-          <View className='calendar__weekdays'>
-            <View className='calendar__weekday'>日</View>
-            <View className='calendar__weekday'>一</View>
-            <View className='calendar__weekday'>二</View>
-            <View className='calendar__weekday'>三</View>
-            <View className='calendar__weekday'>四</View>
-            <View className='calendar__weekday'>五</View>
-            <View className='calendar__weekday'>六</View>
-          </View>
-        </View>
-        <ScrollView
-          className='calendar__body'
-          ref={bodyRef}
-          enhanced
-          scrollY
-          onScroll={handleScroll}
-        >
-          {renderMonth()}
-        </ScrollView>
+        {renderHeader()}
+        {renderBody()}
         {renderFooter()}
       </View>
     );

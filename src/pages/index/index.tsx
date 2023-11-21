@@ -1,7 +1,11 @@
-import { View } from "@tarojs/components";
+import { View, Button } from "@tarojs/components";
 import Taro from "@tarojs/taro";
+import useCountDown from "@/hooks/useCountDown";
 
 export default function Index() {
+  const { current, start, pause } = useCountDown({
+    time: 60 * 2000,
+  });
   const list = [
     {
       label: "form表单",
@@ -20,6 +24,7 @@ export default function Index() {
       url: "/pages/calendar/index",
     },
   ];
+
   return (
     <View className='container'>
       {list.map((item) => (
@@ -30,8 +35,15 @@ export default function Index() {
               url: item.url,
             })
           }
-        >{item.label}</View>
+        >
+          {item.label}
+        </View>
       ))}
+      <View className='time'>
+        {!!current.seconds ? current.seconds : 60}
+        <Button onClick={start}>开始</Button>
+        <Button onClick={pause}>暂停</Button>
+      </View>
     </View>
   );
 }

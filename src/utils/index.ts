@@ -29,6 +29,11 @@ export function raf(fn: FrameRequestCallback): number {
   return requestAnimationFrame.call(root, fn);
 }
 
+export function cancelRaf(id: number) {
+  const cancelAnimationFrame = root.cancelAnimationFrame || root.clearTimeout
+  cancelAnimationFrame.call(root, id)
+}
+
 
 
 export const getElRect = (elementRef: Element | null): Rect => {
