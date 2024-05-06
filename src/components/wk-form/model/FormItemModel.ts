@@ -1,7 +1,7 @@
 import ValidatorSchema, { RuleItem } from "async-validator";
 import { makeAutoObservable } from "mobx";
 import { FormModel } from "./FormModel";
-import { FormValidationTrigger } from "../types";
+import { FormValidationTrigger, LayoutType } from "../types";
 
 export interface FormItemProps {
   label?: string;
@@ -10,6 +10,7 @@ export interface FormItemProps {
   required?: boolean;
   validateTriggerType?: FormValidationTrigger;
   onChangePropsName?: string;
+  layout?: LayoutType;
 }
 
 export class FormItemModel {
@@ -48,6 +49,10 @@ export class FormItemModel {
   get value() {
     return this.form.getFieldValue(this.prop);
   }
+  get layout() {
+    return this.form.props.layout;
+  }
+
   onFocus = () => {
     this.validateIfNeeded("onFocus");
   };

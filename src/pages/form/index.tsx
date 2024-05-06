@@ -1,12 +1,14 @@
 import { useRef, useState } from "react";
 import { Input, Button } from "@tarojs/components";
-import { WKForm, FormItem } from "@/components/wk-form";
+import { WKForm, FormItem, LayoutType } from "@/components/wk-form";
 import { WKPickerSelector } from "@wakeapp/components";
 import { FormModel } from "@/components/wk-form/model/FormModel";
 
 export default function FormText() {
   const formRef = useRef<FormModel>(null);
-  const [form, setForm] = useState<Record<string,any>>({});
+  const [form, setForm] = useState<Record<string, any>>({});
+  const [layout, setLayout] = useState<LayoutType>();
+
   const submit = (val: any) => {
     console.log("fdsf", val);
   };
@@ -19,8 +21,6 @@ export default function FormText() {
     }));
   };
 
-  console.log("form", form);
-
   return (
     <>
       <WKForm
@@ -28,6 +28,7 @@ export default function FormText() {
         value={form}
         onSubmit={submit}
         onChange={handleChange}
+        layout={layout}
       >
         <FormItem label='姓名' prop='name' onChangePropsName='onInput' required>
           <Input placeholder='请输入'></Input>
@@ -39,6 +40,8 @@ export default function FormText() {
         </FormItem>
       </WKForm>
       <Button onClick={() => formRef.current?.validate()}>提交</Button>
+      <Button onClick={() => setLayout("vertical")}>vertical</Button>
+      <Button onClick={() => setLayout("inline")}>inline</Button>
     </>
   );
 }

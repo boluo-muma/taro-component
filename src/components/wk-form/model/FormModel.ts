@@ -3,7 +3,7 @@ import { unset } from "lodash";
 import { RuleItem } from "async-validator";
 import { FormItemModel } from "./FormItemModel";
 
-import { FormValidationTrigger } from "../types";
+import { FormValidationTrigger, LayoutType } from "../types";
 import { getValidValue } from "../utils";
 
 export interface FormProps {
@@ -13,6 +13,7 @@ export interface FormProps {
   onSubmit?: (val: any) => void;
   onChange?: (prop: string, val: any) => void;
   validateTriggerType?: FormValidationTrigger;
+  layout?: LayoutType;
 }
 
 export class FormModel {
@@ -45,7 +46,7 @@ export class FormModel {
   addField(field: FormItemModel) {
     if (this.fields[field.prop]) {
       throw new Error(
-        `Field ${field.prop} already exists, please unmount first`
+        `Field ${field.prop} already exists, please unmount first`,
       );
     }
     this.fields[field.prop] = field;
@@ -61,8 +62,6 @@ export class FormModel {
    * @param val
    */
   setFieldValue(path: string, val: any) {
-    console.log("path", path, val);
-
     this.value[path] = val;
     this.props.onChange?.(path, val);
   }
@@ -72,16 +71,13 @@ export class FormModel {
       dirty = true;
       this.value = getValidValue(props.value);
     }
+    
+    this.props = { ...props };
   }
 
   async validate() {
     const promises = this.fieldList.map((field) => field.validate());
-    try {
-      await Promise.all(promises);
-      this.props.onSubmit?.(this.value);
-      return true;
-    } catch (error) {
-      throw new Error(error as string);
-    }
+    await Promise.all(promises);
+    this.props.onSubmit?.(this.value);
   }
 }

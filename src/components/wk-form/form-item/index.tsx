@@ -18,8 +18,18 @@ export const FormItem: FC<Props> = observer((props) => {
     <Field label={label} prop={prop} {...other}>
       {(context: WKFieldContext) => {
         return (
-          <View className='b-form-item'>
-            <View className={classNames('b-form-item__label',{'b-form-item__label--required': context.required})}>{label}</View>
+          <View
+            className={classNames("b-form-item", {
+              [`b-form-item--${context.layout}`]: context.layout,
+            })}
+          >
+            <View
+              className={classNames("b-form-item__label", {
+                "b-form-item__label--required": context.required,
+              })}
+            >
+              {label}
+            </View>
             <View className='b-form-item__content'>
               {React.isValidElement(props.children) &&
                 React.cloneElement(props.children as any, {

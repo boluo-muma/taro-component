@@ -12,20 +12,22 @@ import { FormModel, FormProps } from "../model/FormModel";
 export const WKForm = forwardRef<FormModel, FormProps>(
   (props, ref: ForwardedRef<FormModel>) => {
     const { value } = props;
+
     const model = useMemo(() => {
       return new FormModel(props);
     }, []);
+
     useImperativeHandle(
       ref,
       () => {
         return model;
       },
-      [model]
+      [model],
     );
 
     useEffect(() => {
       model.updateProps(props);
-    }, [value]);
+    }, [value, props]);
 
     const handleSubmit = () => {
       model.validate();
@@ -36,5 +38,5 @@ export const WKForm = forwardRef<FormModel, FormProps>(
         <Form onSubmit={handleSubmit}>{props.children}</Form>
       </FormContextProvider>
     );
-  }
+  },
 );

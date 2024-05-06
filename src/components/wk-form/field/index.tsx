@@ -4,6 +4,7 @@ import useDeepCompareEffect from "@/hooks/useDeepCompareEffect";
 import { useFormContext } from "../context/FormContext";
 import { FormItemModel, FormItemProps } from "../model";
 import { getValueFromEvent } from "../utils";
+import { LayoutType } from "../types";
 
 export interface WKFieldContext {
   field: FormItemModel;
@@ -11,6 +12,7 @@ export interface WKFieldContext {
   value: any;
   required: boolean;
   error?: string;
+  layout?: LayoutType;
   onChange: (value: any) => void;
   onFocus: () => void;
   onBlur: () => void;
@@ -30,11 +32,11 @@ export const Field: FC<FieldProps> = observer((props) => {
   const field = useMemo(() => {
     return new FormItemModel(form, props);
   }, [form]);
-  
+
   // 更新props参数
   useDeepCompareEffect(() => {
     field.updateProps(props);
-  }, [props]);
+  }, [props, form]);
 
   useEffect(() => {
     field.onMount();
@@ -45,7 +47,7 @@ export const Field: FC<FieldProps> = observer((props) => {
     (evt: any) => {
       return field.onChange(getValueFromEvent(evt));
     },
-    [field]
+    [field],
   );
 
   const context: WKFieldContext = {
@@ -57,6 +59,7 @@ export const Field: FC<FieldProps> = observer((props) => {
     onFocus: field.onFocus,
     onBlur: field.onBlur,
     error: field.validatorMessage,
+    layout: field.layout,
   };
 
   return props.children?.(context) as React.ReactElement;

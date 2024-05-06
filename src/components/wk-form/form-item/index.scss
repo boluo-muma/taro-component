@@ -1,17 +1,39 @@
-.b-form-item{
-  margin-bottom: 64px;
-  &__label--required::before{
-    content: '*';
+.b-form-item {
+  position: relative;
+  padding: 20px 32px;
+  &__label--required::before {
+    position: absolute;
+    content: "*";
     color: red;
+    left: 16px;
   }
-  &__content{
+  &__content {
     line-height: 40px;
     position: relative;
   }
-  &__error{
-    position: absolute;
+  &__error {
     color: red;
     left: 0;
     font-size: 24px;
+  }
+  &:not(:last-child)::after {
+    position: absolute;
+    box-sizing: border-box;
+    content: " ";
+    pointer-events: none;
+    right: 32px;
+    bottom: 0;
+    left: 32px;
+    border-bottom: 1px solid #ebedf0;
+  }
+}
+.b-form-item--inline {
+  display: flex;
+  .b-form-item {
+    &__label {
+      flex: none;
+      width: 88px;
+      margin-right: 12px;
+    }
   }
 }
