@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-shadow */
 import { FC, useState, useMemo } from "react";
 import Taro from "@tarojs/taro";
 import { View, ScrollView } from "@tarojs/components";
@@ -148,19 +147,18 @@ const Cascader: FC<Props> = (props) => {
     setActive(index);
   };
 
-  const isChecked = (val, value) => {
-    if (Array.isArray(value)) {
-      return !!value.find((item) => item.value === val);
+  const isChecked = (val, selectedValue: Array<Option>) => {
+    if (Array.isArray(selectedValue)) {
+      return !!selectedValue.find((item) => item.value === val);
     }
-    return val === value;
+    return val === selectedValue;
   };
-  const isIndeterminate = (node, value) => {
-    // eslint-disable-next-line @typescript-eslint/no-shadow
-    const selected = value && value.some((item) => item.value === node.value);
+  const isIndeterminate = (node, __value: Array<Option>) => {
+    const __selected = __value && __value.some((item) => item.value === node.value);
     return (
-      !selected &&
+      !__selected &&
       !!treeFind(node.children, (item) =>
-        value.some((it) => it.value === item.value)
+        __value.some((it) => it.value === item.value)
       )
     );
   };
@@ -199,7 +197,7 @@ const Cascader: FC<Props> = (props) => {
     <Popup
       visible={visible}
       round
-      customStyle={{ height: Taro.pxTransform(800) }}
+      style={{ height: Taro.pxTransform(800) }}
       close={handleClose}
     >
       <View className='cascader__header'>
