@@ -5,10 +5,15 @@ import "./index.scss";
 
 type Props = {
   visible: Boolean;
+  /**关闭按钮 */
   closeable?: Boolean;
+  /** 点击蒙层关闭 */
   maskClosable?: Boolean;
+  /** 是否圆角 */
   round?: Boolean;
+  /** 弹出方向-默认是下方 */
   position?: string;
+  /** 动画 */
   transition?: Boolean;
   mask?: Boolean;
   maskStyle?: React.CSSProperties;
@@ -56,7 +61,7 @@ const Popup: FC<Props> = (props) => {
   return (
     <View
       className={classNames("popup", {
-        'popup-show': visible,
+        "popup-show": visible,
         "popup-transition": transition,
       })}
       onTouchMove={(e) => e.stopPropagation()}

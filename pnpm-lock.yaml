@@ -28,6 +28,7 @@ specifiers:
   '@typescript-eslint/eslint-plugin': ^5.20.0
   '@typescript-eslint/parser': ^5.20.0
   '@wakeapp/components': ^1.0.10
+  '@wakeapp/router': ^1.0.13
   async-validator: ^4.2.5
   babel-preset-taro: 3.6.6
   classnames: ^2.3.2
@@ -67,6 +68,7 @@ dependencies:
   '@tarojs/shared': 3.6.6
   '@tarojs/taro': 3.6.6_@types+react@18.3.1
   '@wakeapp/components': 1.0.16_xg52twjeprh6i654oyek7mpcii
+  '@wakeapp/router': 1.0.16_qrsd2dcc3zmyjc225jyuusqdoi
   async-validator: 4.2.5
   classnames: 2.5.1
   dayjs: 1.11.11
@@ -3439,6 +3441,30 @@ packages:
     resolution: {integrity: sha512-5ldlBQ6qDD7LnILZHqWCEo4VfXm1zoqmUllfPvM2l9Zk1gcQtCwA/NJmjYi2Q5E+rwFbRzUxU6gPGAUdxs/OIg==}
     dependencies:
       logdown: 3.3.1
+    dev: false
+
+  /@wakeapp/router/1.0.16_qrsd2dcc3zmyjc225jyuusqdoi:
+    resolution: {integrity: sha512-DhKwqBq9sDXUz6KtzBO+saqyQOTaCr1qgGK4n5hr/nzUHXEdmuX2uIgJfMZ645gyvvRVwNhyWmlvn2dD6lO1/A==}
+    hasBin: true
+    peerDependencies:
+      '@tarojs/components': 3.*
+      '@tarojs/helper': 3.*
+      react: '>=17'
+    dependencies:
+      '@tarojs/components': 3.6.6_@types+react@18.3.1
+      '@tarojs/helper': 3.6.6
+      '@wakeapp/api': 1.0.16_jaipoh3jfa75f35elwhzuda4bi
+      '@wakeapp/hooks': 1.0.16_l2gvyp3r4v3gvzzm36ouybregu
+      '@wakeapp/logger': 1.0.16
+      '@wakeapp/taro-platform': 1.0.16_jaipoh3jfa75f35elwhzuda4bi
+      '@wakeapp/utils': 1.0.16_lodash@4.17.21
+      prettier: 3.2.5
+      prettier-config-wk: 0.2.4
+      react: 18.3.1
+    transitivePeerDependencies:
+      - '@tarojs/taro'
+      - lodash
+      - react-dom
     dev: false
 
   /@wakeapp/style/1.0.16:
@@ -11561,6 +11587,16 @@ packages:
     resolution: {integrity: sha512-s/46sYeylUfHNjI+sA/78FAHlmIuKqI9wNnzEOGehAlUUYeObv5C2mOinXBjyUyWmJ2SfcS2/ydApH4hTF4WXQ==}
     engines: {node: '>=0.10.0'}
     dev: true
+
+  /prettier-config-wk/0.2.4:
+    resolution: {integrity: sha512-BIL9We+ChwtSd5JKGWU+tb+zZiaFatbjmuvmd1k0Ym943gohuGhIAv90HF9zmkUJlAppB306WqAoOaxWEkNvgg==}
+    dev: false
+
+  /prettier/3.2.5:
+    resolution: {integrity: sha512-3/GWa9aOC0YeD7LUfvOG2NiDyhOWRvt1k+rcKhOuYnMY24iiCphgneUfJDyFXd6rZCAnuLBv6UeAULtrhT/F4A==}
+    engines: {node: '>=14'}
+    hasBin: true
+    dev: false
 
   /pretty-bytes/5.6.0:
     resolution: {integrity: sha512-FFw039TmrBqFK8ma/7OL3sDz/VytdtJr044/QUJtH0wK9lb9jLq9tJyIxUwtQJHwar2BqtiA4iCWSwo9JLkzFg==}

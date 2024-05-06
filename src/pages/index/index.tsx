@@ -23,6 +23,10 @@ export default function Index() {
       label: "日历",
       url: "/pages/calendar/index",
     },
+    {
+      label: 'popup',
+      url: '/pages/popup/index'
+    }
   ];
 
   return (

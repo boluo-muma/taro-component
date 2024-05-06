@@ -5,6 +5,7 @@ export default defineAppConfig({
     'pages/table/index',
     'pages/cascader/index',
     'pages/calendar/index',
+    'pages/popup/index'
   ],
   window: {
     backgroundTextStyle: 'light',

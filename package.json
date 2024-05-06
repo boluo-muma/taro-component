@@ -51,6 +51,7 @@
     "@tarojs/shared": "3.6.6",
     "@tarojs/taro": "3.6.6",
     "@wakeapp/components": "^1.0.10",
+    "@wakeapp/router": "^1.0.13",
     "async-validator": "^4.2.5",
     "classnames": "^2.3.2",
     "dayjs": "^1.11.10",
@@ -83,5 +84,6 @@
     "ts-node": "^10.9.1",
     "typescript": "^4.1.0",
     "webpack": "4.46.0"
-  }
+  },
+  "fabric": "5.3.0-browser"
 }
