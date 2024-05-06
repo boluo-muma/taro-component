@@ -95,17 +95,18 @@ const Table: FC<Props> = props => {
     };
     return (
       <View className='wk-table-head'>
-        <View className='wk-table-head_tr'>
+        <View className='wk-table-head__tr'>
           {columnList.map((column, columnIndex) => (
             <View
-              className={classNames('wk-table-head_th', calcSort(column))}
+              className={classNames('wk-table-head__th', calcSort(column))}
               key={`${column.key}${columnIndex}`}
               style={calcThStyle(column)}
+              onClick={() => handleSort(column, columnIndex)}
             >
               {!!column.renderHead && column.renderHead(column, columnIndex)}
               {!column.renderHead && <Text>{column.title}</Text>}
               {column.sort && (
-                <View className='wk-table-head_sort' onClick={() => handleSort(column, columnIndex)}>
+                <View className='wk-table-head__sort'>
                   <View className='sort-ascending'></View>
                   <View className='sort-descending'></View>
                 </View>
@@ -120,9 +121,9 @@ const Table: FC<Props> = props => {
     return (
       <View className='wk-table-body'>
         {list.map((row, rowIndex) => (
-          <View className='wk-table-body_tr' key={row?.[rowKey]}>
+          <View className='wk-table-body__tr' key={row?.[rowKey]}>
             {columnList.map((column, columnIndex) => (
-              <View className='wk-table-body_td' key={columnIndex}>
+              <View className='wk-table-body__td' key={columnIndex}>
                 {!!column.render && column.render(row, rowIndex)}
                 {!column.render && <View>{row?.[column.key]}</View>}
               </View>

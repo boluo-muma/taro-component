@@ -1,5 +1,5 @@
 import { useRef, useState } from "react";
-import { Input, Button } from "@tarojs/components";
+import { Input, Button, Textarea } from "@tarojs/components";
 import { WKForm, FormItem, LayoutType } from "@/components/wk-form";
 import { WKPickerSelector } from "@wakeapp/components";
 import { FormModel } from "@/components/wk-form/model/FormModel";
@@ -37,6 +37,9 @@ export default function FormText() {
           <WKPickerSelector
             options={[{ label: "中国", value: 1 }]}
           ></WKPickerSelector>
+        </FormItem>
+        <FormItem label='备注' prop='remarks' required={form.name}>
+          <Textarea placeholder='请输入'></Textarea>
         </FormItem>
       </WKForm>
       <Button onClick={() => formRef.current?.validate()}>提交</Button>
