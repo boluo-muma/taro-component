@@ -4,7 +4,7 @@ import useCountDown from "@/hooks/useCountDown";
 
 export default function Index() {
   const { current, start, pause } = useCountDown({
-    time: 60 * 2000,
+    time: 60 * 1000 * 60 * 24 * 365,
   });
   const list = [
     {
@@ -24,9 +24,9 @@ export default function Index() {
       url: "/pages/calendar/index",
     },
     {
-      label: 'popup',
-      url: '/pages/popup/index'
-    }
+      label: "popup",
+      url: "/pages/popup/index",
+    },
   ];
 
   return (
@@ -44,7 +44,10 @@ export default function Index() {
         </View>
       ))}
       <View className='time'>
-        {!!current.seconds ? current.seconds : 60}
+        {!!current.days && `${current.days}天`}
+        {!!current.hours && `${current.hours}时`}
+        {!!current.minutes && `${current.minutes}分`}
+        {!!current.total && `${current.seconds}秒`}
         <Button onClick={start}>开始</Button>
         <Button onClick={pause}>暂停</Button>
       </View>
